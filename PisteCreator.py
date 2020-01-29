@@ -28,7 +28,8 @@ from PyQt4.QtGui import QAction, QIcon, QFileDialog, \
 
 from qgis.gui import QgsMapToolZoom, QgsMapToolIdentify
 
-from qgis.core import QgsRasterLayer, QgsGeometry
+from qgis.core import Qgis, QgsRasterLayer, QgsGeometry
+from qgis.core import QgsMessageLog
 
 # Initialize Qt resources from file resources.py
 import resources
@@ -224,7 +225,7 @@ class PisteCreator:
     def onClosePlugin(self):
         """Cleanup necessary items here when plugin dockwidget is closed"""
 
-        print "** CLOSING PisteCreator"
+        QgsMessageLog.logMessage("** CLOSING PisteCreator", "PisteCreator", level=Qgis.Info)
 
         # disconnects
         self.cleanStop()
@@ -241,7 +242,7 @@ class PisteCreator:
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
 
-        # print "** UNLOAD PisteCreator"
+        # QgsMessageLog.logMessage("** UNLOAD PisteCreator", "PisteCreator", level=Qgis.Info)
 
         for action in self.actions:
             self.iface.removePluginMenu(
@@ -353,7 +354,7 @@ class PisteCreator:
         pathRaster = os.path.dirname(fileName)
         dem = QgsRasterLayer(fileName, baseName)
         if not dem.isValid():
-            print "Layer failed to load!"
+            QgsMessageLog.logMessage("Layer failed to load!", "PisteCreator", level=Qgis.Info)
 
         # 3
         self.ConfigParser = GrumpyConfigParser()
@@ -399,7 +400,7 @@ class PisteCreator:
         pathRaster = os.path.dirname(fileName)
         dem = QgsRasterLayer(fileName, baseName)
         if not dem.isValid():
-            print "Layer failed to load!"
+            QgsMessageLog.logMessage("Layer failed to load!", "PisteCreator", level=Qgis.Info)
 
         # 3
         self.ConfigParser = GrumpyConfigParser()
@@ -498,7 +499,7 @@ class PisteCreator:
         if not self.pluginIsActive:
             self.pluginIsActive = True
 
-            # print "** STARTING PisteCreator"
+            # QgsMessageLog.logMessage("** STARTING PisteCreator", "PisteCreator", level=Qgis.Info)
 
             # dockwidget may not exist if:
             #    first run of plugin

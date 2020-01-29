@@ -22,8 +22,9 @@
 """
 
 from qgis.gui import QgsRubberBand, QgsMapToolIdentify, QgsMapTool
-from qgis.core import QgsGeometry, QgsPoint, QgsFeature, QgsRaster, \
+from qgis.core import Qgis, QgsGeometry, QgsPoint, QgsFeature, QgsRaster, \
     QgsFeatureRequest, QgsSnappingUtils, QgsExpression, QgsField
+from qgis.core import QgsMessageLog
 from PyQt4.QtGui import QColor
 from PyQt4.QtCore import QVariant, Qt
 #from assisted_track_option import AssistedTrackOption
@@ -521,7 +522,7 @@ class SlopeMapTool(QgsMapTool):
         if self.edit is True:
             pr = self.lines_layer.dataProvider()
             ids = [i.id() for i in self.lines_layer.getFeatures()]
-            print len(ids)
+            QgsMessageLog.logMessage("ID count: %s" % len(ids), 'PisteCreator', level=Qgis.Info)
             if len(ids) != 0 :
                 id = ids[-1]
                 iterator = self.lines_layer.getFeatures(QgsFeatureRequest().setFilterFid(id))
